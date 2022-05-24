@@ -1,0 +1,3 @@
+node_modules
+database/dbAuth.js
+public/dist

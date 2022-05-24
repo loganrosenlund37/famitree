@@ -1,0 +1,53 @@
+body {
+  margin: 0;
+}
+
+.main-nav {
+  width: 10;
+  background-color: rgba(173, 216, 230);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.nav-ul {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  margin: 0;
+  justify-content: space-between;
+}
+
+.nav-li:not(:last-child) {
+  border-right: 2px solid black;
+}
+
+li.nav-li {
+  color: black;
+  list-style-type: none;
+  font-size: 18px;
+  padding: 18px 27px;
+}
+
+.nav-li:hover {
+  cursor: pointer;
+  background-color: rgba(23, 125, 205, 1);
+}
+
+.nav-logout {
+  margin-left: auto;
+  list-style-type: none;
+  margin-right: 10px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.text-link {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.logout-button {
+  padding: 10px;
+  margin: -10;
+}
