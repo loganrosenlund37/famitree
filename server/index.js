@@ -16,6 +16,7 @@ const {
   editLeaf,
   addSpouseOrParent,
   searchLeafs,
+  removeLeaf,
 } = require('./controllers/LeafController');
 
 app.use(morgan('dev'));
@@ -33,6 +34,8 @@ app.post('/api/leaf/new', addLeaf);
 app.post('/api/leaf/spouseparent', addSpouseOrParent);
 
 app.put('/api/leaf/edit', editLeaf);
+
+app.delete('/api/leaf/remove', removeLeaf);
 
 app.listen(PORT, () => {
   console.log(`Famitree server listening on port ${PORT}`);

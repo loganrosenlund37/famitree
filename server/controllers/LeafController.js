@@ -30,6 +30,7 @@ const getLeaf = async (req, res) => {
     label: l.label,
     _id: l._id,
     dob: l.dob,
+    _key: l._key
   }`;
 
   try {
@@ -265,19 +266,19 @@ const editLeaf = async (req, res) => {
       // check if spouse edges exist and remove if necessary
       const lsQuery = aql`
       FOR v, e, p IN 1..1 ANY
-      ${leafID}
-      GRAPH 'relationships'
-      FILTER e.type == 'married'
-      REMOVE e._key IN 'relations'`;
+        ${leafID}
+        GRAPH 'relationships'
+        FILTER e.type == 'married'
+        REMOVE e._key IN 'relations'`;
       db.query(lsQuery);
     }
     if (father) {
       const lfQuery = aql`
-      FOR v, e, p IN 1..1 ANY
-      ${leafID}
-      GRAPH 'relationships'
-      FILTER e.type == 'child' && e.parent == 'father'
-      RETURN e`;
+        FOR v, e, p IN 1..1 ANY
+        ${leafID}
+        GRAPH 'relationships'
+        FILTER e.type == 'child' && e.parent == 'father'
+        RETURN e`;
 
       let lfLink = await db.query(lfQuery);
       lfLink = await lfLink.all();
@@ -375,6 +376,30 @@ const editLeaf = async (req, res) => {
   }
 };
 
+const removeLeaf = async (req, res) => {
+  const { leafID, leafKey } = req.body;
+
+  console.log(leafID, leafKey, req.body);
+  // remove any edge docs
+  const leafQuery = aql`
+    LET edgeKeys = (FOR v, e, p IN 1..1 ANY
+      ${leafID}
+      GRAPH 'relationships'
+      OPTIONS { ignoreErrors: true } REMOVE e._key IN relations)
+    REMOVE { _key: ${leafKey} } IN leafs`;
+
+  console.log(leafQuery);
+
+  try {
+    db.query(leafQuery)
+      .then(() => res.sendStatus(204));
+    // res.sendStatus(200);
+  } catch (error) {
+    console.error(error.body.message);
+    res.sendStatus(500);
+  }
+};
+
 const addSpouseOrParent = async (req, res) => {
   const { label, value } = req.body;
   const query = aql`INSERT {
@@ -420,6 +445,7 @@ module.exports = {
   getLeaf,
   addLeaf,
   editLeaf,
+  removeLeaf,
   addSpouseOrParent,
   searchLeafs,
 };
