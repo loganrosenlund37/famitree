@@ -41,15 +41,15 @@
     @apply border-purple-700;
   };
   div.modal {
-    @apply fixed
+    @apply
     bg-white
-    inset-x-0
-    mx-auto
-    h-fit
-    w-fit
+    m-auto
     rounded-lg
-    top-1/4
-    z-40;
+    mt-40
+    w-11/12
+    sm:w-2/4
+    lg:w-2/5
+    xl:w-1/4;
   };
   .modal-header {
     @apply text-lg
@@ -57,27 +57,32 @@
     h-full
     rounded-t-lg
     p-3
-    border-b-2;
+    border-b-2
+    text-center;
   };
   .modal-body {
-    @apply p-4;
+    @apply 
+    py-4
+    px-6;
   };
   .modal-footer {
     @apply flex
     flex-row
     justify-around
     rounded-b-lg
-    py-3
+    py-6
     border-t-2;
   };
   .backdrop {
-    @apply h-screen
-    w-screen
-    absolute
-    inset-0
+    @apply 
+    fixed
     z-10
-    bg-gray-900
-    opacity-50;
+    left-0
+    top-0
+    h-full
+    w-full
+    overflow-auto;
+    background-color: rgba(0, 0, 0, 0.5);
   }
 }
 

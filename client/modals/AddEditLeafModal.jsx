@@ -20,25 +20,36 @@ const AddEditLeafModal = ({ leaf, add = true }) => {
   const [mother, setMother] = useState({});
 
   React.useEffect(() => {
-    setLabel(leaf?.label);
+    setLabel(leaf?.label || '');
     setSpouse(leaf?.spouse);
-    setDOB(leaf?.dob);
+    setDOB(leaf?.dob || '');
     setFather(leaf?.father);
     setMother(leaf?.mother);
   }, [leaf]);
 
-  const toggleModal = () => setIsOpen((current) => !current);
+  const openModal = () => {
+    setIsOpen(true);
+    window.setTimeout(() => document.getElementById('label').focus(), 50);
+  };
 
   const closeModal = () => {
     setIsOpen(false);
+    if (add) {
+      setLabel('');
+      setSpouse(undefined);
+      setDOB('');
+      setFather(undefined);
+      setMother(undefined);
+    }
   };
 
-  const callback = () => {
+  const callback = (e) => {
+    e.preventDefault();
     const URL = add ? 'api/leaf/new' : 'api/leaf/edit';
     const METHOD = add ? 'POST' : 'PUT';
 
     if (label == undefined || label.length < 1) {
-      document.getElementById('name').focus();
+      document.getElementById('label').focus();
     } else {
       axios({
         method: METHOD,
@@ -58,7 +69,7 @@ const AddEditLeafModal = ({ leaf, add = true }) => {
         .then((response) => {
           if (response.status == 200) {
             queryClient.invalidateQueries(add ? 'leafs' : 'leaf');
-            setIsOpen(false);
+            closeModal();
           } else {
             // eslint-disable-next-line no-alert
             alert(`There was an issue ${add ? 'Add' : 'edit'}ing.`);
@@ -69,13 +80,13 @@ const AddEditLeafModal = ({ leaf, add = true }) => {
 
   return (
     <>
-      <button className="btn ml-auto mr-2" type="button" onClick={toggleModal} label={add ? 'Add Person' : 'Edit Person'} title={add ? 'Add Person' : 'Edit Person'}>{add ? <BsPersonPlusFill size={20} /> : <FaUserEdit size={20} />}</button>
-      <Modal open={isOpen} onClose={closeModal} cb={callback} btnName={add ? 'Add' : 'Save'}>
+      <button className="btn mr-2" type="button" onClick={openModal} label={add ? 'Add Person' : 'Edit Person'} title={add ? 'Add Person' : `Edit ${leaf?.label}`}>{add ? <BsPersonPlusFill size={20} /> : <FaUserEdit size={20} />}</button>
+      <Modal open={isOpen}>
         <div className="modal-header">
           <h3 className="">{add ? 'Add Person' : `Edit ${leaf?.label}`}</h3>
         </div>
-        <div className="modal-body">
-          <form onSubmit={callback} className="flex flex-col" autoComplete="off">
+        <form onSubmit={callback} className="flex flex-col" autoComplete="off">
+          <div className="modal-body">
             <label className="" htmlFor="label">
               Name
               <input type="text" className="inpt w-full" id="label" {...bindLabel} />
@@ -90,8 +101,12 @@ const AddEditLeafModal = ({ leaf, add = true }) => {
             <FindLeafSelector value={father} setValue={setFather} />
             <label className="" htmlFor="mother">Mother</label>
             <FindLeafSelector value={mother} setValue={setMother} />
-          </form>
-        </div>
+          </div>
+          <div className="modal-footer d-flex justify-content-center">
+            <button type="button" className="btn" onClick={closeModal}>Cancel</button>
+            <button type="submit" className="btn" onClick={callback}>{add ? 'Add' : 'Save'}</button>
+          </div>
+        </form>
       </Modal>
     </>
   );

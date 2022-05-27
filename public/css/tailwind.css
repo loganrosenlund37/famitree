@@ -553,22 +553,30 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 div.modal {
-  position: fixed;
-  left: 0px;
-  right: 0px;
-  top: 25%;
-  z-index: 40;
-  margin-left: auto;
-  margin-right: auto;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
+  margin: auto;
+  margin-top: 10rem;
+  width: 91.666667%;
   border-radius: 0.5rem;
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+@media (min-width: 640px) {
+  div.modal {
+    width: 50%;
+  }
+}
+
+@media (min-width: 1024px) {
+  div.modal {
+    width: 40%;
+  }
+}
+
+@media (min-width: 1280px) {
+  div.modal {
+    width: 25%;
+  }
 }
 
 .modal-header {
@@ -578,12 +586,16 @@ div.modal {
   border-top-right-radius: 0.5rem;
   border-bottom-width: 2px;
   padding: 0.75rem;
+  text-align: center;
   font-size: 1.125rem;
   line-height: 1.75rem;
 }
 
 .modal-body {
-  padding: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .modal-footer {
@@ -593,22 +605,19 @@ div.modal {
   border-bottom-right-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
   border-top-width: 2px;
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .backdrop {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
+  position: fixed;
   left: 0px;
+  top: 0px;
   z-index: 10;
-  height: 100vh;
-  width: 100vw;
-  --tw-bg-opacity: 1;
-  background-color: rgb(17 24 39 / var(--tw-bg-opacity));
-  opacity: 0.5;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .fixed {
@@ -688,8 +697,16 @@ div.modal {
   margin-right: 0.5rem;
 }
 
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
 .mt-4 {
   margin-top: 1rem;
+}
+
+.mr-auto {
+  margin-right: auto;
 }
 
 .mt-5 {
@@ -700,8 +717,8 @@ div.modal {
   margin-top: 1.5rem;
 }
 
-.ml-8 {
-  margin-left: 2rem;
+.mt-0 {
+  margin-top: 0px;
 }
 
 .mb-7 {
@@ -809,6 +826,10 @@ div.modal {
   border-width: 4px;
 }
 
+.border-b-2 {
+  border-bottom-width: 2px;
+}
+
 .border-double {
   border-style: double;
 }
@@ -852,6 +873,19 @@ div.modal {
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.pb-3 {
+  padding-bottom: 0.75rem;
+}
+
+.pt-3 {
+  padding-top: 0.75rem;
 }
 
 .text-center {

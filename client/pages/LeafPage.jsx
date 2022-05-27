@@ -7,6 +7,7 @@ import getLeaf from '../requests/getLeaf';
 import LeafInfoCard from '../components/LeafInfoCard';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import AddEditLeafModal from '../modals/AddEditLeafModal';
+import RemoveLeafModal from '../modals/RemoveLeafModal';
 import getAge from '../utilities/getAge';
 
 const LeafPage = () => {
@@ -19,16 +20,19 @@ const LeafPage = () => {
 
   return (
     <>
-      <div className="flex flex-row justify-between mt-4 mx-3">
-        <div className="ml-auto">
-          <h1 className="text-xl ml-8 text-orange-600">{leaf?.label} {leaf?.dob ? ` - ${getAge(leaf.dob)}` : null}</h1>
+      <div className="flex flex-row justify-between mt-4 px-3 pb-3 border-b-2">
+        <RemoveLeafModal leaf={leaf} />
+        <div className="ml-auto mr-auto">
+          <h1 className="text-xl text-orange-600">{leaf?.label} {leaf?.dob ? ` - ${getAge(leaf.dob)}` : null}</h1>
         </div>
         <AddEditLeafModal leaf={leaf} add={false} />
       </div>
-      <div className="m-2">
+      <div className="m-2 mt-0 pt-3">
+        <div className="flex flex-row justify-center">
+          {leaf?.father ? <LeafInfoCard title="Father" leaf={leaf.father} /> : null}
+          {leaf?.mother ? <LeafInfoCard title="Mother" leaf={leaf.mother} /> : null}
+        </div>
         {leaf?.spouse ? <LeafInfoCard title="Spouse" leaf={leaf.spouse} /> : null}
-        {leaf?.father ? <LeafInfoCard title="Father" leaf={leaf.father} /> : null}
-        {leaf?.mother ? <LeafInfoCard title="Mother" leaf={leaf.mother} /> : null}
         {leaf?.siblings ? <LeafInfoCard title="Siblings" leaf={false} /> : null}
         {
           leaf?.siblings?.length > 0

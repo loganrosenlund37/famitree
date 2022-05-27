@@ -22,7 +22,7 @@ const Forest = () => {
   return (
     <>
       <div className="flex flex-row justify-between mt-4 mx-3">
-        <div className="ml-auto">
+        <div className="ml-auto mr-auto">
           <Search bind={bindSearch} />
         </div>
         <AddEditLeafModal leaf={null} />
